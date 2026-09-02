@@ -42,7 +42,24 @@ xcrun simctl list
 
 - ReactNative 起動
 ```sh
+# 先に Simulator を立ち上げておけば、任意の iPhone で起動できる
 npm run ios
 ```
 
-- 
+- ローカルビルド
+```sh
+
+```
+
+## Flutter
+- 新規作成
+```sh
+flutter create --project-name orca_catalog_flutter flutter
+```
+
+- BUILD
+```sh
+flutter run
+flutter devices
+flutter run -d "iPhone Air"
+```
