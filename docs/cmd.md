@@ -8,6 +8,12 @@ tree -d
 tree -d -I 'node_modules|.next'
 ```
 
+- ディレクトリ作成
+```sh
+# [id] はNext.jsの動的ルートで、/individuals/K-001 のようなURLを受け取れる
+mkdir -p app/individuals/[id]
+```
+
 ## Next.js
 - 新規プロジェクト作成 (name=nextjs)
 ```sh
@@ -23,6 +29,7 @@ npx create-next-app@latest nextjs
 # サーバ停止は ctrl(^)+c
 npm run dev
 ```
+
 
 ## ReactNative
 - 新規プロジェクト作成 (name=nextjs)
@@ -62,4 +69,6 @@ flutter create --project-name orca_catalog_flutter flutter
 flutter run
 flutter devices
 flutter run -d "iPhone Air"
+flutter config --enable-web # ❌safari
+flutter run -d Chrome
 ```
