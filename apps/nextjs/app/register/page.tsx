@@ -1,8 +1,8 @@
-
 "use client";
 
 import Link from "next/link";
 import { useState } from "react";
+import styles from "./page.module.css";
 
 export default function RegisterPage() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -29,9 +29,9 @@ export default function RegisterPage() {
 
       <h1>写真を登録</h1>
 
-      <div className="uploadForm">
+      <div className={styles.uploadForm}>
         {!preview && (
-        <label className="fileInput">
+        <label className={styles.fileInput}>
             <span>写真を選択</span>
             <input
             type="file"
@@ -43,11 +43,11 @@ export default function RegisterPage() {
 
         {preview && (
             <>
-                <div className="preview">
+                <div className={styles.preview}>
                 <img src={preview} alt="選択した写真のプレビュー" />
                 </div>
 
-                <label className="changeButton">
+                <label className={styles.changeButton}>
                 写真を変更
                 <input
                     type="file"
@@ -58,7 +58,7 @@ export default function RegisterPage() {
             </>
         )}
 
-        <div className="formActions">
+        <div className={styles.formActions}>
           <button type="button" disabled={!preview}>
             登録する
           </button>

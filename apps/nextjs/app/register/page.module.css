@@ -1,0 +1,73 @@
+/* 以下 app/register/page.tsx 作成後に追記 */
+.uploadForm {
+  max-width: 640px;
+  margin-top: 32px;
+}
+
+.fileInput {
+  display: block;
+  padding: 40px;
+  border: 2px dashed #ccc;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.fileInput:hover {
+  border-color: #888;
+}
+
+.fileInput input {
+  display: none;
+}
+
+.preview {
+  margin-top: 24px;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #eee;
+}
+
+.preview img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.formActions {
+  margin-top: 24px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.formActions button {
+  border: 0;
+  border-radius: 8px;
+  padding: 12px 20px;
+  background: #222;
+  color: white;
+  cursor: pointer;
+}
+
+.formActions button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 以下、写真アップロード後に UI を変更するようにした時に追記 */
+.changeButton {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.changeButton:hover {
+  background: #f5f5f5;
+}
+
+.changeButton input {
+  display: none;
+}

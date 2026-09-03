@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useState } from "react";
+import styles from "./page.module.css";
 
 const individuals = [
   {
@@ -24,40 +28,48 @@ const individuals = [
 ];
 
 export default function Home() {
+  const [query, setQuery] = useState("");
+
+  const filteredIndividuals = individuals.filter(
+    (individual) =>
+      individual.id.toLowerCase().includes(query.toLowerCase()) ||
+      individual.name.toLowerCase().includes(query.toLowerCase()),
+  );
+
   return (
     <main className="container">
-      <header className="header">
+      <header className={styles.header}>
         <div>
           <p className="eyebrow">OrcaCatalog</p>
           <h1>個体を探す</h1>
         </div>
 
-        {/* <button className="registerButton">写真を登録</button> */}
-        <Link href="/register" className="registerButton">
+        <Link href="/register" className={styles.registerButton}>
           写真を登録
         </Link>
       </header>
 
-      <div className="search">
+      <div className={styles.search}>
         <input
           type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           placeholder="個体名・IDを検索"
-          aria-label="個体名・IDを検索"
         />
       </div>
 
-      <section className="grid" aria-label="個体一覧">
-        {individuals.map((individual) => (
+      <section className={styles.grid} aria-label="個体一覧">
+        {filteredIndividuals.map((individual) => (
           <Link
-            className="card"
+            className={styles.card}
             key={individual.id}
             href={`/individuals/${individual.id}`}
           >
-            <div className="photoPlaceholder">
+            <div className={styles.photoPlaceholder}>
               <span>Photo</span>
             </div>
 
-            <div className="cardBody">
+            <div className={styles.cardBody}>
               <h2>{individual.name}</h2>
               <p>{individual.description}</p>
             </div>
