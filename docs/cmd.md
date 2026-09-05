@@ -55,7 +55,30 @@ npm run ios
 
 - ローカルビルド
 ```sh
+npx expo run:ios --device
+```
 
+- 追加パッケージ
+```sh
+# 写真アップロード？
+npx expo install expo-image-picker
+```
+
+- 動作確認
+```sh
+# expo start
+npm start
+# npm start
+#    ↓
+# Metro Bundlerを起動
+#    ↓
+# JS/TSコードをiPhoneに配信
+
+# npx expo run:ios
+#    ↓
+# iOSアプリを再ビルド
+#    ↓
+# ExponentImagePickerをアプリに組み込む
 ```
 
 ## Flutter
