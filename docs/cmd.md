@@ -8,6 +8,11 @@ tree -d
 tree -d -I 'node_modules|.next'
 ```
 
+- ある深さまでファイル表示
+```sh
+find lib -maxdepth 2 -type f
+```
+
 - ディレクトリ作成
 ```sh
 # [id] はNext.jsの動的ルートで、/individuals/K-001 のようなURLを受け取れる
@@ -94,4 +99,10 @@ flutter devices
 flutter run -d "iPhone Air"
 flutter config --enable-web # ❌safari
 flutter run -d Chrome
+```
+
+- 追加パッケージ
+```sh
+# 写真アップロード？
+flutter pub add image_picker
 ```
