@@ -7,3 +7,19 @@
   > WebとNativeのUI変更を1か所で済ませられる  
   > 1か所のコードで、性質の違う2つのUIを表現しなければならない  
   > 「コードを共有すること」と「開発コストを減らすこと」は別
+
+## SwiftUI
+```
+swiftui/
+├── Assets.xcassets/
+├── Models/
+│   └── Individual.swift
+├── Screens/
+│   ├── HomeView.swift
+│   ├── IndividualDetailView.swift
+│   └── RegisterView.swift
+├── Components/
+│   └── IndividualCard.swift
+├── swiftuiApp.swift
+└── ContentView.swift
+```
