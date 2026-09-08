@@ -1,0 +1,48 @@
+# Dockerで動かす service 一覧
+services:
+  # service の名前
+  nextjs:
+    # ./apps/nextjs/Dockerfile を使って image を作る
+    build:
+      context: ./apps/nextjs
+    # Localhost 3000 >>> Container 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      # Local から Container へのマウント
+      - ./apps/nextjs:/app
+      # node_modules は Container側を使用（マウントしない）
+      - /app/node_modules
+      # .next はNext.jsがビルド・開発時に生成するディレクトリ。これもマウントしない
+      - /app/.next
+  api:
+    build:
+      context: ./backend
+    ports:
+      - "5001:5000"
+    volumes:
+      - ./backend:/app
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: orca_catalog
+      DB_USER: orca
+      DB_PASSWORD: orca
+
+  postgres:
+    # PostgreSQL は Dockerfile を書かず、公式の Docker image をそのまま使う
+    image: postgres:18
+    environment:
+      POSTGRES_USER: orca
+      # リリース時は消す
+      POSTGRES_PASSWORD: orca
+      POSTGRES_DB: orca_catalog
+    ports:
+      - "5432:5432"
+    volumes:
+      # Docker 管理の永続ボリュームに保存
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  # Docker 管理の永続ボリュームを定義
+  postgres_data:

@@ -1,0 +1,3 @@
+Flask
+# PythonからPostgreSQLへ接続するためのライブラリ
+psycopg[binary]

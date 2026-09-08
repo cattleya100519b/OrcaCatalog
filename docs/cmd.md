@@ -19,6 +19,44 @@ find lib -maxdepth 2 -type f
 mkdir -p app/individuals/[id]
 ```
 
+## Docker
+- 起動（起動後、localhost:3000 で見れる）
+```sh
+docker compose up
+# detached、Terminal を占有しない
+docker compose up -d
+# Dockerfileを変更した場合など、イメージを作り直したい時
+docker compose up --build
+```
+
+- 終了（-d で起動した場合）
+```sh
+# DB 内データが残る
+docker compose down
+# volume も削除するので、DB 内データが消える
+docker compose down -v
+```
+
+- 他
+```sh
+# ログを見る
+docker compose logs
+docker compose logs postgres
+# 状態を見る
+docker compose ps
+# 
+docker compose exec postgres psql -U orca -d orca_catalog
+```
+
+## PostgreSQL
+- 
+```sh
+# DataTable
+¥dt
+# 終了
+¥q
+```
+
 ## Next.js
 - 新規プロジェクト作成 (name=nextjs)
 ```sh
