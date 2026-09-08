@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @State private var query = ""
+    @FocusState private var isSearchFocused: Bool
 
     private var filteredIndividuals: [Individual] {
         if query.isEmpty {
@@ -38,6 +39,11 @@ struct HomeView: View {
 
                     TextField("個体名・IDを検索", text: $query)
                         .textFieldStyle(.roundedBorder)
+                        .focused($isSearchFocused)
+                        .submitLabel(.done)
+                        .onSubmit {
+                            isSearchFocused = false
+                        } // Done で仮想キーボードを閉じる
 
                     let columns = [
                         GridItem(.adaptive(minimum: 400), spacing: 16)
@@ -57,7 +63,13 @@ struct HomeView: View {
                 .frame(maxWidth: 900)
                 .frame(maxWidth: .infinity)
             }
+            .simultaneousGesture(
+                TapGesture().onEnded {
+                    isSearchFocused = false
+                }
+            ) // Tap で仮想キーボードを閉じる
             .navigationTitle("OrcaCatalog")
+            .scrollDismissesKeyboard(.immediately) // Scroll で仮想キーボードを閉じる
         }
     }
 }
