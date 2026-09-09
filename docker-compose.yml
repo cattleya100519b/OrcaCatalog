@@ -28,6 +28,7 @@ services:
       DB_NAME: orca_catalog
       DB_USER: orca
       DB_PASSWORD: orca
+      DATABASE_URL: postgresql+psycopg://orca:orca@postgres:5432/orca_catalog
 
   postgres:
     # PostgreSQL は Dockerfile を書かず、公式の Docker image をそのまま使う

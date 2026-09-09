@@ -26,7 +26,9 @@ docker compose up
 # detached、Terminal を占有しない
 docker compose up -d
 # Dockerfileを変更した場合など、イメージを作り直したい時
+# 因みに何故か起動に一部失敗している場合があるので、ps で確認すること
 docker compose up --build
+docker compose up --build -d
 ```
 
 - 終了（-d で起動した場合）
@@ -42,6 +44,8 @@ docker compose down -v
 # ログを見る
 docker compose logs
 docker compose logs postgres
+docker compose logs api
+docker compose logs --tail=50 api
 # 状態を見る
 docker compose ps
 # 
@@ -53,8 +57,30 @@ docker compose exec postgres psql -U orca -d orca_catalog
 ```sh
 # DataTable
 ¥dt
+\d individuals
 # 終了
 ¥q
+# 既存テーブルに新しい COLUMN を追加
+orca_catalog=# ALTER TABLE individuals
+orca_catalog-# ADD COLUMN photo_path VARCHAR(500);
+```
+
+## API
+- POST
+```sh
+curl -X POST http://localhost:5001/api/individuals \
+  -H "Content-Type: application/json" \
+  -d '{"id":"K-001","name":"K-001","description":"Adult · Known individual"}'
+curl -X POST http://localhost:5001/api/individuals \
+  -H "Content-Type: application/json" \
+  -d '{"id":"K-002"}'
+curl -X POST http://localhost:5001/api/upload \
+  -F "photo=@$HOME/Downloads/IMG_0020.jpeg"
+```
+
+- GET
+```sh
+curl http://localhost:5001/api/individuals
 ```
 
 ## Next.js

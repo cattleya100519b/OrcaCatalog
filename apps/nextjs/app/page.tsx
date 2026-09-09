@@ -1,34 +1,48 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
-const individuals = [
-  {
-    id: "K-001",
-    name: "K-001",
-    description: "Adult · Known individual",
-  },
-  {
-    id: "K-002",
-    name: "K-002",
-    description: "Adult · Known individual",
-  },
-  {
-    id: "K-003",
-    name: "K-003",
-    description: "Juvenile · Known individual",
-  },
-  {
-    id: "K-004",
-    name: "K-004",
-    description: "Adult · Known individual",
-  },
-];
+// const individuals = [
+//   {
+//     id: "K-001",
+//     name: "K-001",
+//     description: "Adult · Known individual",
+//   },
+//   {
+//     id: "K-002",
+//     name: "K-002",
+//     description: "Adult · Known individual",
+//   },
+//   {
+//     id: "K-003",
+//     name: "K-003",
+//     description: "Juvenile · Known individual",
+//   },
+//   {
+//     id: "K-004",
+//     name: "K-004",
+//     description: "Adult · Known individual",
+//   },
+// ];
+
+type Individual = {
+  id: string;
+  name: string;
+  description: string;
+  photo_path: string | null;
+};
 
 export default function Home() {
   const [query, setQuery] = useState("");
+  const [individuals, setIndividuals] = useState<Individual[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/api/individuals")
+      .then((response) => response.json())
+      .then((data) => setIndividuals(data));
+  }, []);
 
   const filteredIndividuals = individuals.filter(
     (individual) =>
@@ -65,9 +79,20 @@ export default function Home() {
             key={individual.id}
             href={`/individuals/${individual.id}`}
           >
-            <div className={styles.photoPlaceholder}>
+            {/* <div className={styles.photoPlaceholder}>
               <span>Photo</span>
-            </div>
+            </div> */}
+            {individual.photo_path ? (
+              <img
+                className={styles.photo}
+                src={`http://localhost:5001/uploads/${individual.photo_path}`}
+                alt={individual.name}
+              />
+            ) : (
+              <div className={styles.photoPlaceholder}>
+                <span>Photo</span>
+              </div>
+            )}
 
             <div className={styles.cardBody}>
               <h2>{individual.name}</h2>
@@ -78,4 +103,16 @@ export default function Home() {
       </section>
     </main>
   );
+  // return (
+  //   <main>
+  //     <h1>OrcaCatalog</h1>
+
+  //     {individuals.map((individual) => (
+  //       <div key={individual.id}>
+  //         <h2>{individual.name}</h2>
+  //         <p>{individual.description}</p>
+  //       </div>
+  //     ))}
+  //   </main>
+  // );
 }

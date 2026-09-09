@@ -17,7 +17,7 @@
   align-items: start;
 }
 
-.detailPhoto {
+/* .detailPhoto {
   aspect-ratio: 4 / 3;
   display: flex;
   align-items: center;
@@ -25,6 +25,21 @@
   border-radius: 12px;
   background: #e8e8e6;
   color: #888;
+} */
+
+.detailPhoto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #e8e8e6;
+}
+
+.detailPhoto img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .info {

@@ -9,4 +9,6 @@ COPY . .
 
 EXPOSE 5000
 
-CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000"]
+# CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000"]
+# Flaskのデバッグ/自動リロードを ON
+CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000", "--debug"]
