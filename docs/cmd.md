@@ -96,6 +96,7 @@ npx create-next-app@latest nextjs
 ```sh
 # package.json に定義されている next dev を実行
 # サーバ停止は ctrl(^)+c
+# http://localhost:3000
 npm run dev
 ```
 

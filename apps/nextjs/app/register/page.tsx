@@ -31,12 +31,6 @@ export default function RegisterPage() {
       return;
     }
 
-    // const fileInput = document.querySelector(
-    //   'input[type="file"]',
-    // ) as HTMLInputElement | null;
-
-    // const file = fileInput?.files?.[0];
-
     if (!file) {
       setError("写真を選択してください");
       return;
@@ -74,63 +68,70 @@ export default function RegisterPage() {
       <h1>写真を登録</h1>
 
       <div className={styles.uploadForm}>
-        {!preview && (
-          <label className={styles.fileInput}>
-            <span>写真を選択</span>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
-          </label>
-        )}
+        <section className={styles.photoSection}>
+          <p className={styles.sectionLabel}>写真</p>
 
-        {preview && (
-          <>
-            <div className={styles.preview}>
-              <img src={preview} alt="選択した写真のプレビュー" />
-            </div>
-
-            <label className={styles.changeButton}>
-              写真を変更
+          {!preview && (
+            <label className={styles.fileInput}>
+              <span>写真を選択</span>
               <input type="file" accept="image/*" onChange={handleFileChange} />
             </label>
-          </>
-        )}
+          )}
 
-        <div>
-          <label>
-            ID
+          {preview && (
+            <>
+              <div className={styles.preview}>
+                <img src={preview} alt="選択した写真のプレビュー" />
+              </div>
+
+              <label className={styles.changeButton}>
+                写真を変更
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileChange}
+                />
+              </label>
+            </>
+          )}
+        </section>
+
+        <section className={styles.formSection}>
+          <div className={styles.field}>
+            <label htmlFor="individual-id">ID</label>
             <input
+              id="individual-id"
               type="text"
               value={id}
               onChange={(e) => setId(e.target.value)}
-              placeholder="K-005"
+              placeholder="K-001"
             />
-          </label>
-        </div>
+          </div>
 
-        <div>
-          <label>
-            個体名
+          <div className={styles.field}>
+            <label htmlFor="individual-name">個体名</label>
             <input
+              id="individual-name"
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="K-005"
+              placeholder="K-001"
             />
-          </label>
-        </div>
+          </div>
 
-        <div>
-          <label>
-            説明
-            <input
-              type="text"
+          <div className={styles.field}>
+            <label htmlFor="individual-description">説明</label>
+            <textarea
+              id="individual-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Adult · Known individual"
+              rows={4}
             />
-          </label>
-        </div>
+          </div>
+        </section>
 
-        {error && <p>{error}</p>}
+        {error && <p className={styles.error}>{error}</p>}
 
         <div className={styles.formActions}>
           <button type="button" disabled={!preview} onClick={handleSubmit}>
