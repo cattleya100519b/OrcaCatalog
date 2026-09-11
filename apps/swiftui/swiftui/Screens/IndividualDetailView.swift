@@ -1,10 +1,3 @@
-//
-//  IndividualDetailView.swift
-//  swiftui
-//
-//  Created by Shota Teranishi on 2026/09/07.
-//
-
 import SwiftUI
 
 struct IndividualDetailView: View {
@@ -13,14 +6,29 @@ struct IndividualDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Rectangle()
-                    .fill(.gray.opacity(0.15))
-                    .aspectRatio(4 / 3, contentMode: .fit)
-                    .overlay {
+                AsyncImage(
+                    url: URL(
+                        string: "\(APIConfig.baseURL)/uploads/\(individual.photoPath ?? "")"
+                    )
+                ) { phase in
+                    switch phase {
+                    case .empty:
+                        ProgressView()
+
+                    case .success(let image):
+                        image
+                            .resizable()
+                            .scaledToFit()
+
+                    case .failure:
                         Text("Photo")
                             .foregroundStyle(.secondary)
+
+                    @unknown default:
+                        EmptyView()
                     }
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .frame(maxWidth: .infinity)
 
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Individual")
@@ -31,6 +39,10 @@ struct IndividualDetailView: View {
                     Text(individual.name)
                         .font(.largeTitle)
                         .fontWeight(.bold)
+
+                    Text(individual.description)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
                 }
 
                 VStack(spacing: 0) {
@@ -40,8 +52,6 @@ struct IndividualDetailView: View {
                 }
             }
             .padding(24)
-            .frame(maxWidth: 700)
-            .frame(maxWidth: .infinity)
         }
         .navigationTitle("個体詳細")
         .navigationBarTitleDisplayMode(.inline)
@@ -70,6 +80,13 @@ private struct InfoRow: View {
 
 #Preview {
     NavigationStack {
-        IndividualDetailView(individual: individuals[0])
+        IndividualDetailView(
+            individual: Individual(
+                id: "K-001",
+                name: "K-001",
+                description: "Adult · Known individual",
+                photoPath: nil
+            )
+        )
     }
 }

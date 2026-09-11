@@ -1,10 +1,3 @@
-//
-//  IndividualCard.swift
-//  swiftui
-//
-//  Created by Shota Teranishi on 2026/09/07.
-//
-
 import SwiftUI
 
 struct IndividualCard: View {
@@ -12,13 +5,31 @@ struct IndividualCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            Rectangle()
-                .fill(.gray.opacity(0.15))
-                .aspectRatio(4 / 3, contentMode: .fit)
-                .overlay {
+            AsyncImage(
+                url: URL(
+                    string: "\(APIConfig.baseURL)/uploads/\(individual.photoPath ?? "")"
+                )
+            ) { phase in
+                switch phase {
+                case .empty:
+                    ProgressView()
+
+                case .success(let image):
+                    image
+                        .resizable()
+                        .scaledToFill()
+
+                case .failure:
                     Text("Photo")
                         .foregroundStyle(.secondary)
+
+                @unknown default:
+                    EmptyView()
                 }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 200)
+            .clipped()
 
             VStack(alignment: .leading, spacing: 6) {
                 Text(individual.name)
@@ -40,6 +51,13 @@ struct IndividualCard: View {
 }
 
 #Preview {
-    IndividualCard(individual: individuals[0])
-        .padding()
+    IndividualCard(
+        individual: Individual(
+            id: "K-001",
+            name: "K-001",
+            description: "Adult · Known individual",
+            photoPath: nil
+        )
+    )
+    .padding()
 }
