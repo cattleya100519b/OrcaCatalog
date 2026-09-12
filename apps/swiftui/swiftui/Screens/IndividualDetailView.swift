@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// 個体の詳細情報を表示する画面
 struct IndividualDetailView: View {
     let individual: Individual
 
@@ -58,6 +59,11 @@ struct IndividualDetailView: View {
     }
 }
 
+/// ラベルと値を横並びで表示する情報行
+///
+/// - Parameters:
+///   - label: 項目名
+///   - value: 項目の値
 private struct InfoRow: View {
     let label: String
     let value: String

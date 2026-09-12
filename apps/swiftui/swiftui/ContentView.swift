@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// アプリのメインタブを管理
 struct ContentView: View {
     @State private var selectedTab = 0
 

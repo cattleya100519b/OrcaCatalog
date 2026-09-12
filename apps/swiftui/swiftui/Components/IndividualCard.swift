@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// 個体一覧に表示する個体カード
 struct IndividualCard: View {
     let individual: Individual
 

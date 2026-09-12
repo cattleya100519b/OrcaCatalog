@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// 個体の検索と一覧表示を行うホーム画面
 struct HomeView: View {
     @State private var query = ""
     @State private var individuals: [Individual] = []
@@ -16,6 +17,10 @@ struct HomeView: View {
         }
     }
 
+    /// 画面幅に応じたグリッドの列を生成
+    ///
+    /// - Parameter width: グリッドを配置する画面の幅
+    /// - Returns: 画面幅に応じた列数の `GridItem` 配列
     private func columns(for width: CGFloat) -> [GridItem] {
         // iPhone: 1列
         // iPad縦: 2列
@@ -93,6 +98,7 @@ struct HomeView: View {
         }
     }
 
+    /// API から個体一覧を取得し、画面に表示する個体を更新
     private func loadIndividuals() async {
         guard let url = URL(string: "\(APIConfig.baseURL)/api/individuals")
         else {

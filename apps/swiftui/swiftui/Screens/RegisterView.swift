@@ -1,6 +1,7 @@
 import PhotosUI
 import SwiftUI
 
+/// 個体の写真と基本情報を登録する画面
 struct RegisterView: View {
     let onRegistered: () -> Void
     @State private var selectedItem: PhotosPickerItem?
@@ -106,6 +107,7 @@ struct RegisterView: View {
         }
     }
 
+    /// 写真と個体情報をAPIへ送信して個体を登録
     private func register() async {
         guard let imageData else {
             return
