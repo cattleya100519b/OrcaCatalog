@@ -4,29 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 
-// const individuals = [
-//   {
-//     id: "K-001",
-//     name: "K-001",
-//     description: "Adult · Known individual",
-//   },
-//   {
-//     id: "K-002",
-//     name: "K-002",
-//     description: "Adult · Known individual",
-//   },
-//   {
-//     id: "K-003",
-//     name: "K-003",
-//     description: "Juvenile · Known individual",
-//   },
-//   {
-//     id: "K-004",
-//     name: "K-004",
-//     description: "Adult · Known individual",
-//   },
-// ];
-
+/**
+ * 個体一覧で扱う個体データ
+ */
 type Individual = {
   id: string;
   name: string;
@@ -34,6 +14,9 @@ type Individual = {
   photo_path: string | null;
 };
 
+/**
+ * 個体の検索と一覧表示を行うホーム画面
+ */
 export default function Home() {
   const [query, setQuery] = useState("");
   const [individuals, setIndividuals] = useState<Individual[]>([]);
@@ -79,9 +62,6 @@ export default function Home() {
             key={individual.id}
             href={`/individuals/${individual.id}`}
           >
-            {/* <div className={styles.photoPlaceholder}>
-              <span>Photo</span>
-            </div> */}
             {individual.photo_path ? (
               <img
                 className={styles.photo}
@@ -103,16 +83,4 @@ export default function Home() {
       </section>
     </main>
   );
-  // return (
-  //   <main>
-  //     <h1>OrcaCatalog</h1>
-
-  //     {individuals.map((individual) => (
-  //       <div key={individual.id}>
-  //         <h2>{individual.name}</h2>
-  //         <p>{individual.description}</p>
-  //       </div>
-  //     ))}
-  //   </main>
-  // );
 }

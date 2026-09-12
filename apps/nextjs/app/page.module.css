@@ -1,3 +1,4 @@
+/* ヘッダーのタイトルと登録ボタンを横並びに配置 */
 .header {
   display: flex;
   align-items: flex-end;
@@ -6,6 +7,7 @@
   margin-bottom: 32px;
 }
 
+/* 写真登録画面へのリンクボタン */
 .registerButton {
   display: inline-block;
   text-decoration: none;
@@ -17,14 +19,17 @@
   cursor: pointer;
 }
 
+/* 登録ボタンのホバー時の表示 */
 .registerButton:hover {
   opacity: 0.8;
 }
 
+/* 検索欄の下に余白を設定 */
 .search {
   margin-bottom: 32px;
 }
 
+/* 個体検索用の入力欄 */
 .search input {
   width: 100%;
   border: 1px solid #ddd;
@@ -34,16 +39,19 @@
   outline: none;
 }
 
+/* 検索欄にフォーカスしたときの表示 */
 .search input:focus {
   border-color: #888;
 }
 
+/* 個体カードをグリッド状に配置 */
 .grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
 }
 
+/* 個体カードの基本レイアウト */
 .card {
   overflow: hidden;
   border: 1px solid #e5e5e5;
@@ -55,11 +63,13 @@
     box-shadow 0.15s ease;
 }
 
+/* 個体カードのホバー時の表示 */
 .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
 }
 
+/* 写真がない場合のプレースホルダー */
 .photoPlaceholder {
   aspect-ratio: 4 / 3;
   display: flex;
@@ -70,27 +80,32 @@
   font-size: 14px;
 }
 
+/* 個体カードのテキスト部分 */
 .cardBody {
   padding: 16px;
 }
 
+/* 個体名 */
 .cardBody h2 {
   margin: 0 0 6px;
   font-size: 18px;
 }
 
+/* 個体の説明 */
 .cardBody p {
   margin: 0;
   color: #777;
   font-size: 14px;
 }
 
+/* タブレット向けの2列レイアウト */
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* スマートフォン向けのレイアウト */
 @media (max-width: 600px) {
   .header {
     align-items: flex-start;
@@ -102,6 +117,7 @@
   }
 }
 
+/* 個体写真の表示 */
 .photo {
   width: 100%;
   aspect-ratio: 4 / 3;

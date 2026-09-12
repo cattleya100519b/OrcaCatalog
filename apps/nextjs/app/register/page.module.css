@@ -1,13 +1,16 @@
+/* 写真登録フォーム全体 */
 .uploadForm {
   max-width: 640px;
   margin-top: 32px;
 }
 
+/* 写真選択・入力フォームの各セクション */
 .photoSection,
 .formSection {
   margin-top: 32px;
 }
 
+/* セクションの見出し */
 .sectionLabel {
   margin: 0 0 12px;
   font-size: 14px;
@@ -15,6 +18,7 @@
   color: #555;
 }
 
+/* 写真未選択時のファイル選択エリア */
 .fileInput {
   display: flex;
   align-items: center;
@@ -26,27 +30,32 @@
   cursor: pointer;
 }
 
+/* ファイル選択エリアのホバー時の表示 */
 .fileInput:hover {
   border-color: #888;
   background: #fafafa;
 }
 
+/* ファイル選択用のinputを非表示 */
 .fileInput input {
   display: none;
 }
 
+/* 選択した写真のプレビュー領域 */
 .preview {
   overflow: hidden;
   border-radius: 12px;
   background: #eee;
 }
 
+/* プレビュー画像を横幅に合わせて表示 */
 .preview img {
   display: block;
   width: 100%;
   height: auto;
 }
 
+/* 写真変更ボタン */
 .changeButton {
   display: inline-block;
   margin-top: 12px;
@@ -57,18 +66,22 @@
   cursor: pointer;
 }
 
+/* 写真変更ボタンのホバー時の表示 */
 .changeButton:hover {
   background: #f5f5f5;
 }
 
+/* ファイル選択用のinputを非表示 */
 .changeButton input {
   display: none;
 }
 
+/* 入力項目 */
 .field {
   margin-top: 20px;
 }
 
+/* 入力項目のラベル */
 .field label {
   display: block;
   margin-bottom: 8px;
@@ -77,6 +90,7 @@
   color: #555;
 }
 
+/* テキスト入力欄と説明入力欄 */
 .field input,
 .field textarea {
   display: block;
@@ -88,28 +102,33 @@
   color: #222;
 }
 
+/* 入力欄にフォーカスしたときの表示 */
 .field input:focus,
 .field textarea:focus {
   outline: none;
   border-color: #555;
 }
 
+/* 説明入力欄を縦方向にリサイズ可能にする */
 .field textarea {
   resize: vertical;
   font-family: inherit;
 }
 
+/* 入力エラーの表示 */
 .error {
   margin: 16px 0 0;
   color: #b42318;
 }
 
+/* 登録ボタンの配置 */
 .formActions {
   display: flex;
   justify-content: flex-end;
   margin-top: 28px;
 }
 
+/* 登録ボタン */
 .formActions button {
   border: 0;
   border-radius: 8px;
@@ -119,6 +138,7 @@
   cursor: pointer;
 }
 
+/* 登録ボタンが無効なときの表示 */
 .formActions button:disabled {
   opacity: 0.4;
   cursor: not-allowed;

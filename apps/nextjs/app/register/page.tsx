@@ -4,6 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import styles from "./page.module.css";
 
+/**
+ * 個体の写真と基本情報を登録するページ
+ */
 export default function RegisterPage() {
   const [preview, setPreview] = useState<string | null>(null);
   const [file, setFile] = useState<File | null>(null);
@@ -12,6 +15,11 @@ export default function RegisterPage() {
   const [description, setDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * 選択された写真をプレビュー表示する
+   *
+   * @param event ファイル選択イベント
+   */
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -23,6 +31,9 @@ export default function RegisterPage() {
     setPreview(URL.createObjectURL(file));
   };
 
+  /**
+   * 入力された個体情報と写真をAPIへ送信して登録する
+   */
   const handleSubmit = async () => {
     setError(null);
 

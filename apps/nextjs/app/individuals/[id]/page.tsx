@@ -1,10 +1,16 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 
+/**
+ * 個体詳細ページの Props
+ */
 type Props = {
   params: Promise<{ id: string }>;
 };
 
+/**
+ * 個体詳細ページで扱う個体データ
+ */
 type Individual = {
   id: string;
   name: string;
@@ -12,6 +18,11 @@ type Individual = {
   photo_path: string | null;
 };
 
+/**
+ * 個体の詳細情報を表示するページ
+ *
+ * @param params URL パラメータ
+ */
 export default async function IndividualPage({ params }: Props) {
   const { id } = await params;
 

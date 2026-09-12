@@ -1,4 +1,4 @@
-/* 以下 app/individuals/[id]/page.tsx 作成後に追記 */
+/* 個体一覧へ戻るリンク */
 .backLink {
   display: inline-block;
   margin: 24px 0 32px;
@@ -6,10 +6,12 @@
   text-decoration: none;
 }
 
+/* 戻るリンクのホバー時の表示 */
 .backLink:hover {
   text-decoration: underline;
 }
 
+/* 個体詳細の写真と情報を2列に配置 */
 .individualDetail {
   display: grid;
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
@@ -17,16 +19,7 @@
   align-items: start;
 }
 
-/* .detailPhoto {
-  aspect-ratio: 4 / 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 12px;
-  background: #e8e8e6;
-  color: #888;
-} */
-
+/* 個体詳細の写真領域 */
 .detailPhoto {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -35,6 +28,7 @@
   background: #e8e8e6;
 }
 
+/* 個体詳細の写真を領域内に収める */
 .detailPhoto img {
   width: 100%;
   height: 100%;
@@ -42,10 +36,12 @@
   display: block;
 }
 
+/* 個体情報一覧 */
 .info {
   margin: 32px 0 0;
 }
 
+/* 個体情報の各項目をラベルと値に分けて表示 */
 .info > div {
   display: grid;
   grid-template-columns: 100px 1fr;
@@ -53,14 +49,17 @@
   border-bottom: 1px solid #e5e5e5;
 }
 
+/* 個体情報のラベル */
 .info dt {
   color: #777;
 }
 
+/* 個体情報の値 */
 .info dd {
   margin: 0;
 }
 
+/* スマートフォン向けに写真と情報を縦並びに変更 */
 @media (max-width: 700px) {
   .individualDetail {
     grid-template-columns: 1fr;
