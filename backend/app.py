@@ -23,11 +23,13 @@ Base.metadata.create_all(engine)
 
 @app.get("/api/health")
 def health():
+    """APIの稼働状態を確認"""
     return {"status": "ok"}
 
 
 @app.get("/api/db-health")
 def db_health():
+    """データベースへの接続状態を確認"""
     with psycopg.connect(
         host=os.getenv("DB_HOST"),
         port=os.getenv("DB_PORT"),
@@ -44,6 +46,7 @@ def db_health():
 
 @app.get("/api/individuals")
 def get_individuals():
+    """個体一覧を取得"""
     with Session(engine) as session:
         # SELECT * FROM individuals;
         individuals = session.scalars(
@@ -63,6 +66,14 @@ def get_individuals():
 
 @app.get("/api/individuals/<id>")
 def get_individual(id):
+    """指定されたIDの個体を取得する
+
+    Args:
+        id: 取得する個体の識別番号
+
+    Returns:
+        個体情報、または個体が存在しない場合は 404
+    """
     with Session(engine) as session:
         individual = session.get(Individual, id)
 
@@ -75,59 +86,18 @@ def get_individual(id):
             "description": individual.description,
             "photo_path": individual.photo_path,
         }
-    
-
-# @app.post("/api/individuals")
-# def create_individual():
-#     """POST
-    
-#     201: 正常登録
-#     400: 入力がおかしい
-#     409: IDが重複
-#     500: 想定外の障害
-#     """
-#     data = request.get_json()
-
-#     required = ["id", "name", "description"]
-#     if not data or not all(key in data for key in required):
-#         return {
-#             "error": "id, name, and description are required"
-#         }, 400
-    
-#     individual = Individual(
-#         id=data["id"],
-#         name=data["name"],
-#         description=data["description"],
-#     )
-
-#     try:
-#         with Session(engine) as session:
-#             session.add(individual)
-#             session.commit()
-
-#             # Sessionが生きているうちに値を取得
-#             result = {
-#                 "id": individual.id,
-#                 "name": individual.name,
-#                 "description": individual.description,
-#             }
-#     except IntegrityError:
-#         return {
-#             "error": "Individual already exists",
-#             "id": data["id"],
-#         }, 409
-
-#     return result, 201
 
 
 @app.post("/api/individuals")
 def create_individual():
-    """POST
-        
-    201: 正常登録
-    400: 入力がおかしい
-    409: IDが重複
-    500: 想定外の障害
+    """写真と個体情報を登録
+
+    201: 正常登録  
+    400: 入力値またはファイル名が不正  
+    409: ID が重複
+
+    Returns:
+        登録された個体情報
     """
     id = request.form.get("id")
     name = request.form.get("name")
@@ -186,25 +156,9 @@ def create_individual():
 
 @app.get("/uploads/<path:filename>")
 def uploaded_file(filename):
+    """アップロードされた写真を取得
+
+    Args:
+        filename: 取得する写真のパス
+    """
     return send_from_directory(UPLOAD_DIR, filename)
-
-
-# @app.post("/api/upload")
-# def upload_file():
-#     file = request.files.get("photo")
-
-#     if file is None:
-#         return {"error": "photo is required"}, 400
-
-#     filename = secure_filename(file.filename)
-
-#     if not filename:
-#         return {"error": "invalid filename"}, 400
-
-#     path = os.path.join(UPLOAD_DIR, filename)
-#     file.save(path)
-
-#     return {
-#         "filename": filename,
-#         "path": f"uploads/{filename}",
-#     }, 201
