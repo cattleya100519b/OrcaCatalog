@@ -4,3 +4,7 @@ psycopg[binary]
 SQLAlchemy
 # 3000番ポートの Web ページから 5001番ポートのサーバへのアクセスを許可する
 Flask-Cors
+flask-smorest
+sphinx
+# sphinx theme
+furo

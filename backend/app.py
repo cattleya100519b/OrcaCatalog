@@ -2,6 +2,8 @@ import os
 
 from flask import Flask, request, send_from_directory
 from flask_cors import CORS
+from flask_smorest import Api, Blueprint
+from marshmallow import Schema, fields
 import psycopg
 from sqlalchemy import create_engine, select
 from sqlalchemy.exc import IntegrityError
@@ -12,6 +14,22 @@ from models import Base, Individual
 
 
 app = Flask(__name__)
+
+app.config["API_TITLE"] = "OrcaCatalog API" # Swaggerに表示するAPI名
+app.config["API_VERSION"] = "v1"
+app.config["OPENAPI_VERSION"] = "3.0.3"
+app.config["OPENAPI_URL_PREFIX"] = "/"
+app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui" # Swagger UI の URL
+app.config["OPENAPI_SWAGGER_UI_URL"] = (
+    "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
+)
+api = Api(app) # Flask-Smorest をアプリに登録
+blp = Blueprint(
+    "health",
+    __name__,
+    url_prefix="/api",
+)
+
 UPLOAD_DIR = os.path.join(app.root_path, "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 CORS(app)
@@ -21,13 +39,43 @@ engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(engine)
 
 
-@app.get("/api/health")
+class HealthSchema(Schema):
+    """APIの稼働状態を表すレスポンス"""
+    status = fields.Str()
+
+
+class DBHealthSchema(Schema):
+    """データベースの接続状態を表すレスポンス"""
+    database = fields.Bool()
+
+
+class IndividualSchema(Schema):
+    """個体情報を表すデータ"""
+    id = fields.Str()
+    name = fields.Str()
+    description = fields.Str()
+    photo_path = fields.Str(allow_none=True)
+
+
+# class IndividualCreateSchema(Schema):
+#     """個体登録時に受け取るデータ"""
+#     id = fields.Str(required=True)
+#     name = fields.Str(required=True)
+#     description = fields.Str(required=True)
+#     photo = fields.Raw()
+
+
+# @app.get("/api/health")
+@blp.get("/health")
+@blp.response(200, HealthSchema)
 def health():
     """APIの稼働状態を確認"""
     return {"status": "ok"}
 
 
-@app.get("/api/db-health")
+# @app.get("/api/db-health")
+@blp.get("/db-health")
+@blp.response(200, DBHealthSchema)
 def db_health():
     """データベースへの接続状態を確認"""
     with psycopg.connect(
@@ -44,7 +92,9 @@ def db_health():
     return {"database": result[0] == 1}
 
 
-@app.get("/api/individuals")
+# @app.get("/api/individuals")
+@blp.get("/individuals")
+@blp.response(200, IndividualSchema(many=True))
 def get_individuals():
     """個体一覧を取得"""
     with Session(engine) as session:
@@ -64,7 +114,9 @@ def get_individuals():
     ]
 
 
-@app.get("/api/individuals/<id>")
+# @app.get("/api/individuals/<id>")
+@blp.get("/individuals/<id>")
+@blp.response(200, IndividualSchema)
 def get_individual(id):
     """指定されたIDの個体を取得する
 
@@ -89,6 +141,9 @@ def get_individual(id):
 
 
 @app.post("/api/individuals")
+# @blp.post("/individuals")
+# @blp.arguments(IndividualCreateSchema, location="form")
+# @blp.response(201, IndividualSchema)
 def create_individual():
     """写真と個体情報を登録
 
@@ -103,6 +158,10 @@ def create_individual():
     name = request.form.get("name")
     description = request.form.get("description")
     file = request.files.get("photo")
+    # id = data["id"]
+    # name = data["name"]
+    # description = data["description"]
+    # file = data.get("photo")
 
     if not id or not name or not description:
         return {
@@ -162,3 +221,6 @@ def uploaded_file(filename):
         filename: 取得する写真のパス
     """
     return send_from_directory(UPLOAD_DIR, filename)
+
+
+api.register_blueprint(blp)

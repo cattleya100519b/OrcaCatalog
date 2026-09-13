@@ -83,6 +83,13 @@ curl -X POST http://localhost:5001/api/upload \
 curl http://localhost:5001/api/individuals
 ```
 
+- sphinx
+```sh
+docker compose exec api bash
+cd ..
+sphinx-build -b html docs docs/_build/html
+```
+
 ## Next.js
 - 新規プロジェクト作成 (name=nextjs)
 ```sh
