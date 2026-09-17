@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from werkzeug.utils import secure_filename
 
-from models import Base, Individual
+from models import Base, Individual, Observation
 
 
 app = Flask(__name__)
@@ -63,6 +63,14 @@ class IndividualSchema(Schema):
 #     name = fields.Str(required=True)
 #     description = fields.Str(required=True)
 #     photo = fields.Raw()
+
+
+class ObservationSchema(Schema):
+    """観察情報を表すデータ"""
+    id = fields.Str()
+    latitude = fields.Float()
+    longitude = fields.Float()
+    individual = fields.Nested(IndividualSchema)
 
 
 # @app.get("/api/health")
@@ -140,6 +148,35 @@ def get_individual(id):
         }
 
 
+@blp.get("/observations")
+@blp.response(200, ObservationSchema(many=True))
+def get_observations():
+    """観察情報一覧を取得"""
+    with Session(engine) as session:
+        rows = session.execute(
+            select(Observation, Individual)
+            .join(
+                Individual,
+                Observation.individual_id == Individual.id,
+            )
+        ).all()
+
+    return [
+        {
+            "id": observation.id,
+            "latitude": observation.latitude,
+            "longitude": observation.longitude,
+            "individual": {
+                "id": individual.id,
+                "name": individual.name,
+                "description": individual.description,
+                "photo_path": individual.photo_path,
+            },
+        }
+        for observation, individual in rows
+    ]
+
+
 @app.post("/api/individuals")
 # @blp.post("/individuals")
 # @blp.arguments(IndividualCreateSchema, location="form")
@@ -191,9 +228,17 @@ def create_individual():
         photo_path=photo_path,
     )
 
+    observation = Observation(
+        id=id,
+        individual_id=id,
+        latitude=float(request.form.get("latitude")),
+        longitude=float(request.form.get("longitude")),
+    )
+
     try:
         with Session(engine) as session:
             session.add(individual)
+            session.add(observation)
             session.commit()
 
             # Sessionが生きているうちに値を取得

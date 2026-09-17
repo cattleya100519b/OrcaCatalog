@@ -1,15 +1,18 @@
+import ImageIO
 import PhotosUI
 import SwiftUI
 
 /// 個体の写真と基本情報を登録する画面
 struct RegisterView: View {
-    let onRegistered: () -> Void
+    let onRegistered: (Observation) -> Void
     @State private var selectedItem: PhotosPickerItem?
     @State private var image: Image?
     @State private var imageData: Data?
     @State private var id = ""
     @State private var name = ""
     @State private var description = ""
+    @State private var latitude: Double?
+    @State private var longitude: Double?
     @FocusState private var isTextFieldFocused: Bool
 
     var body: some View {
@@ -66,6 +69,11 @@ struct RegisterView: View {
                     .focused($isTextFieldFocused)
                     .lineLimit(3...6)
 
+                if let latitude, let longitude {
+                    Text("緯度: \(latitude)")
+                    Text("経度: \(longitude)")
+                }
+
                 HStack {
                     Spacer()
 
@@ -103,6 +111,10 @@ struct RegisterView: View {
             {
                 imageData = data
                 image = Image(uiImage: uiImage)
+
+                let metadata = PhotoMetadata(data: data)
+                latitude = metadata.latitude
+                longitude = metadata.longitude
             }
         }
     }
@@ -112,6 +124,24 @@ struct RegisterView: View {
         guard let imageData else {
             return
         }
+        // 登録時にはGPS情報が存在すること
+        guard let latitude, let longitude else {
+            return
+        }
+
+        let individual = Individual(
+            id: id,
+            name: name,
+            description: description,
+            photoPath: nil
+        )
+
+        let observation = Observation(
+            id: id,
+            latitude: latitude,
+            longitude: longitude,
+            individual: individual
+        )
 
         guard let url = URL(string: "\(APIConfig.baseURL)/api/individuals")
         else {
@@ -141,6 +171,8 @@ struct RegisterView: View {
         appendField(name: "id", value: id)
         appendField(name: "name", value: name)
         appendField(name: "description", value: description)
+        appendField(name: "latitude", value: String(latitude))
+        appendField(name: "longitude", value: String(longitude))
 
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append(
@@ -163,7 +195,7 @@ struct RegisterView: View {
                 print("status:", httpResponse.statusCode)
 
                 if httpResponse.statusCode == 201 {
-                    onRegistered()
+                    onRegistered(observation)
                 }
             }
 
@@ -175,6 +207,6 @@ struct RegisterView: View {
 }
 
 #Preview {
-    RegisterView {
+    RegisterView { observation in
     }
 }

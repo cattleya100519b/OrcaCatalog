@@ -19,6 +19,11 @@ find lib -maxdepth 2 -type f
 mkdir -p app/individuals/[id]
 ```
 
+- IP 確認
+```sh
+ipconfig getifaddr en0
+```
+
 ## Docker
 - 起動（起動後、localhost:3000 で見れる）
 ```sh
@@ -48,7 +53,7 @@ docker compose logs api
 docker compose logs --tail=50 api
 # 状態を見る
 docker compose ps
-# 
+# PostgreSQL に入る
 docker compose exec postgres psql -U orca -d orca_catalog
 ```
 
