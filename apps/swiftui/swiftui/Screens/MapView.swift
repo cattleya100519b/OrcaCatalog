@@ -25,17 +25,32 @@ struct MapView: View {
                                     individual: observation.individual
                                 )
                             } label: {
-                                VStack(spacing: 4) {
-                                    Text(observation.individual.name)
-                                        .font(.headline)
+                                VStack(spacing: 6) {
+                                            if let photoPath = observation.individual.photoPath,
+                                               let url = URL(
+                                                   string: "\(APIConfig.baseURL)/uploads/\(photoPath)"
+                                               )
+                                            {
+                                                AsyncImage(url: url) { image in
+                                                    image
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                } placeholder: {
+                                                    ProgressView()
+                                                }
+                                                .frame(width: 120, height: 80)
+                                                .clipShape(
+                                                    RoundedRectangle(cornerRadius: 8)
+                                                )
+                                            }
 
-                                    Text(observation.individual.description)
-                                        .font(.caption)
-                                        .foregroundStyle(.secondary)
+                                            Text(observation.individual.name)
+                                                .font(.headline)
 
-                                    Image(systemName: "fish")
-                                        .font(.title)
-                                }
+                                            Text(observation.individual.description)
+                                                .font(.caption)
+                                                .foregroundStyle(.secondary)
+                                        }
                                 .padding(8)
                                 .background(.background)
                                 .clipShape(

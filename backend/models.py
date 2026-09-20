@@ -1,4 +1,6 @@
-from sqlalchemy import String, ForeignKey
+from datetime import datetime
+
+from sqlalchemy import String, ForeignKey, DateTime
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -25,6 +27,10 @@ class Individual(Base):
     name: Mapped[str] = mapped_column(String(100))
     description: Mapped[str] = mapped_column(String(500))
     photo_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime,
+        default=datetime.now
+    )
 
 
 class Observation(Base):

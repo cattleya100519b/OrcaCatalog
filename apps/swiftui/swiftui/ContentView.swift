@@ -3,8 +3,6 @@ import SwiftUI
 /// アプリのメインタブを管理
 struct ContentView: View {
     @State private var selectedTab = 0
-    // API 経由で DB 保存実装後に削除
-    @State private var observations: [Observation] = []
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -14,8 +12,7 @@ struct ContentView: View {
                 }
                 .tag(0)
 
-            RegisterView { observation in
-                observations.append(observation)
+            RegisterView { _ in
                 selectedTab = 0
             }
             .tabItem {

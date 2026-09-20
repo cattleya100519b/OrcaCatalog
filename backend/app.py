@@ -109,6 +109,7 @@ def get_individuals():
         # SELECT * FROM individuals;
         individuals = session.scalars(
             select(Individual)
+            .order_by(Individual.created_at.desc())
         ).all()
 
     return [

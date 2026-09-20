@@ -195,6 +195,7 @@ struct RegisterView: View {
                 print("status:", httpResponse.statusCode)
 
                 if httpResponse.statusCode == 201 {
+                    resetForm()
                     onRegistered(observation)
                 }
             }
@@ -203,6 +204,18 @@ struct RegisterView: View {
         } catch {
             print("登録失敗:", error)
         }
+    }
+    /// 登録フォームを初期状態に戻す
+    private func resetForm() {
+        selectedItem = nil
+        image = nil
+        imageData = nil
+        id = ""
+        name = ""
+        description = ""
+        latitude = nil
+        longitude = nil
+        isTextFieldFocused = false
     }
 }
 
