@@ -1,3 +1,6 @@
 __pycache__/
 /backend/uploads/
 .DS_Store
+
+# Xcode user-specific data
+**/xcuserdata/
