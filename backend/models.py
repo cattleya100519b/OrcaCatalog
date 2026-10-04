@@ -1,7 +1,9 @@
+"""SQLAlchemy の DB モデル"""
+
 from datetime import datetime
 
 from sqlalchemy import String, ForeignKey, DateTime
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
 class Base(DeclarativeBase):
@@ -17,9 +19,8 @@ class Individual(Base):
         name: 個体名
         description: 個体の説明
         photo_path: 個体写真の保存先
+        observations: この個体に紐づく観察情報
     """
-    # PostgreSQLではこの名前のテーブルにする
-    # デフォルトのスキーマを使う (public という名前空間)
     __tablename__ = "individuals"
 
     # id: Mapped[str] は Python 側の型、mapped_column(...) が DB 側のカラム定義
@@ -32,6 +33,10 @@ class Individual(Base):
         default=datetime.now
     )
 
+    observations: Mapped[list["Observation"]] = relationship(
+        back_populates="individual"
+    )
+
 
 class Observation(Base):
     """観察情報を表すDBテーブル
@@ -41,6 +46,7 @@ class Observation(Base):
         individual_id: 観察された個体の ID（への参照）
         latitude: 観察地点の緯度
         longitude: 観察地点の経度
+        individual: この観察に対応する個体
     """
     __tablename__ = "observations"
 
@@ -50,3 +56,7 @@ class Observation(Base):
     )
     latitude: Mapped[float]
     longitude: Mapped[float]
+
+    individual: Mapped["Individual"] = relationship(
+        back_populates="observations"
+    )

@@ -51,7 +51,7 @@ docker compose logs
 docker compose logs postgres
 docker compose logs api
 docker compose logs --tail=50 api
-# 状態を見る
+# 状態を見る (process status)
 docker compose ps
 # PostgreSQL に入る
 docker compose exec postgres psql -U orca -d orca_catalog
@@ -61,13 +61,15 @@ docker compose exec postgres psql -U orca -d orca_catalog
 - 
 ```sh
 # DataTable
-¥dt
+\dt
 \d individuals
 # 終了
-¥q
+\q
 # 既存テーブルに新しい COLUMN を追加
 orca_catalog=# ALTER TABLE individuals
 orca_catalog-# ADD COLUMN photo_path VARCHAR(500);
+
+SELECT * FROM individuals WHERE id = 'i003';
 ```
 
 ## API

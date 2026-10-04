@@ -8,3 +8,8 @@ flask-smorest
 sphinx
 # sphinx theme
 furo
+# fastapi
+fastapi
+uvicorn[standard]
+# Form() や File() を使う場合、FastAPIは python-multipart を必要とする
+python-multipart

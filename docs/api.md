@@ -29,3 +29,23 @@ DATABASE_URL: postgresql+psycopg://orca:orca@postgres:5432/orca_catalog
 | `postgres` | 接続先ホスト | Docker Composeの `postgres` |
 | `5432` | PostgreSQLのポート | `5432` |
 | `orca_catalog` | データベース名 | `orca_catalog` |
+
+## API, End Point
+```
+HTTP API
+│
+├── エンドポイント
+│   ├── GET  /api/health
+│   ├── GET  /api/individuals
+│   ├── GET  /api/individuals/{id}
+│   ├── POST /api/individuals
+│   ├── GET  /api/observations
+│   └── GET  /uploads/{filename:path}
+```
+```
+/api/...
+    アプリケーションのデータを操作・取得するエンドポイント
+
+/uploads/...
+    ファイルを取得するエンドポイント
+```

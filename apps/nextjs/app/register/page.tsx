@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import styles from "./page.module.css";
+import * as exifr from "exifr";
 
 /**
  * 個体の写真と基本情報を登録するページ
@@ -13,6 +14,8 @@ export default function RegisterPage() {
   const [id, setId] = useState("");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   /**
@@ -20,7 +23,9 @@ export default function RegisterPage() {
    *
    * @param event ファイル選択イベント
    */
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = event.target.files?.[0];
 
     if (!file) {
@@ -29,6 +34,11 @@ export default function RegisterPage() {
 
     setFile(file);
     setPreview(URL.createObjectURL(file));
+
+    const gps = await exifr.gps(file);
+
+    setLatitude(gps?.latitude ?? null);
+    setLongitude(gps?.longitude ?? null);
   };
 
   /**
@@ -47,11 +57,18 @@ export default function RegisterPage() {
       return;
     }
 
+    if (latitude === null || longitude === null) {
+      setError("写真から位置情報を取得できませんでした");
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("id", id);
     formData.append("name", name);
     formData.append("description", description);
+    formData.append("latitude", latitude.toString());
+    formData.append("longitude", longitude.toString());
     formData.append("photo", file);
 
     const response = await fetch("http://localhost:5001/api/individuals", {

@@ -1,3 +1,5 @@
+"""Flask 版"""
+
 import os
 
 from flask import Flask, request, send_from_directory
@@ -11,6 +13,7 @@ from sqlalchemy.orm import Session
 from werkzeug.utils import secure_filename
 
 from models import Base, Individual, Observation
+from database import engine
 
 
 app = Flask(__name__)
@@ -34,8 +37,8 @@ UPLOAD_DIR = os.path.join(app.root_path, "uploads")
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 CORS(app)
 # 環境変数は docker-compose.yml にて定義済
-DATABASE_URL = os.environ["DATABASE_URL"]
-engine = create_engine(DATABASE_URL)
+# DATABASE_URL = os.environ["DATABASE_URL"]
+# engine = create_engine(DATABASE_URL)
 Base.metadata.create_all(engine)
 
 

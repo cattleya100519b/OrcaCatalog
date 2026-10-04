@@ -11,4 +11,6 @@ EXPOSE 5000
 
 # CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000"]
 # Flaskのデバッグ/自動リロードを ON
-CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000", "--debug"]
+# CMD ["flask", "--app", "app", "run", "--host=0.0.0.0", "--port=5000", "--debug"]
+# FastAPI
+CMD ["uvicorn", "fastapi_app:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
